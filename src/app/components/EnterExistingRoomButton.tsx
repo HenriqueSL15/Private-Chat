@@ -1,7 +1,29 @@
 "use client";
+import { joinRoom } from "@/lib/actions";
 import { ArrowBigRightDash } from "lucide-react";
+import { nanoid } from "nanoid";
+import { useState } from "react";
 
 export default function EnterExistingRoomButton() {
+  const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleJoin = async (roomId: string) => {
+    setIsLoading(true);
+    let userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      userId = nanoid();
+      localStorage.setItem("userId", userId);
+    }
+
+    const result = await joinRoom(roomId, userId);
+
+    if (result) {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <h1 className="text-xl text-center mb-2">
@@ -10,9 +32,19 @@ export default function EnterExistingRoomButton() {
       <div className="flex gap-3">
         <input
           type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           className="border-2 p-3 dark:border-[#008236] dark:focus:border-[#00c950] rounded-sm outline-none w-full transition-all"
         />
-        <button className="dark:bg-[#032e15] dark:hover:bg-[#016630] w-20 min-h-full transition-all rounded-sm flex justify-center items-center hover:cursor-pointer">
+        <button
+          onClick={() => handleJoin(inputValue)}
+          className={`w-20 min-h-full transition-all 
+          rounded-sm flex justify-center items-center hover:cursor-pointer ${
+            isLoading
+              ? "bg-[#3f3f46]"
+              : "dark:bg-[#032e15] dark:hover:bg-[#016630]"
+          }`}
+        >
           <ArrowBigRightDash className="w-2/3 h-2/3" />
         </button>
       </div>
