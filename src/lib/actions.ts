@@ -34,7 +34,7 @@ export async function createRoom(userId: string) {
   await redis.expire(messagesKey, 600);
 
   // Redireciona para a tela do chat
-  redirect(`chat/${roomId}`);
+  redirect(`/chat/${roomId}`);
 }
 interface JoinRoomRes {
   allowed: boolean;
