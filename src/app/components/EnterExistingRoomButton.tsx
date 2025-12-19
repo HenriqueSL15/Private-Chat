@@ -2,11 +2,20 @@
 import { joinRoom } from "@/lib/actions";
 import { ArrowBigRightDash } from "lucide-react";
 import { nanoid } from "nanoid";
+import { redirect } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+interface JoinRoomRes {
+  allowed: boolean;
+  message?: string;
+}
 
 export default function EnterExistingRoomButton() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleJoin = async (roomId: string) => {
     setIsLoading(true);
@@ -17,11 +26,18 @@ export default function EnterExistingRoomButton() {
       localStorage.setItem("userId", userId);
     }
 
-    const result = await joinRoom(roomId, userId);
+    toast.promise(joinRoom(userId, roomId), {
+      loading: "Entrando na sala",
+      success: (res: JoinRoomRes) => {
+        console.log(res);
 
-    if (result) {
-      setIsLoading(false);
-    }
+        setIsLoading(false);
+        setInputValue("");
+        router.push(`chat/${roomId}`);
+        return "Entrou na sala";
+      },
+      error: "Erro ao entrar na sala",
+    });
   };
 
   return (

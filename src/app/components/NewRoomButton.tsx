@@ -2,6 +2,7 @@
 
 import { createRoom } from "@/lib/actions";
 import { nanoid } from "nanoid";
+import { toast } from "sonner";
 
 export default function NewRoomButton() {
   const handleCreate = async () => {
@@ -13,7 +14,11 @@ export default function NewRoomButton() {
       localStorage.setItem("userId", userId);
     }
 
-    await createRoom(userId);
+    toast.promise(createRoom(userId), {
+      loading: "Criando sala",
+      success: "Sala criada",
+      error: "Ocorreu um erro",
+    });
   };
 
   return (
