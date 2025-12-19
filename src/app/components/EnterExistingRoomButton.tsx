@@ -2,7 +2,6 @@
 import { joinRoom } from "@/lib/actions";
 import { ArrowBigRightDash } from "lucide-react";
 import { nanoid } from "nanoid";
-import { redirect } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -33,7 +32,7 @@ export default function EnterExistingRoomButton() {
 
         setIsLoading(false);
         setInputValue("");
-        router.push(`chat/${roomId}`);
+        router.push(`/chat/${roomId}`);
         return "Entrou na sala";
       },
       error: "Erro ao entrar na sala",

@@ -3,8 +3,11 @@
 import { createRoom } from "@/lib/actions";
 import { nanoid } from "nanoid";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function NewRoomButton() {
+  const router = useRouter();
+
   const handleCreate = async () => {
     // Busca ID no local storage
     let userId = localStorage.getItem("userId");
@@ -16,7 +19,10 @@ export default function NewRoomButton() {
 
     toast.promise(createRoom(userId), {
       loading: "Criando sala",
-      success: "Sala criada",
+      success: (roomId: string) => {
+        router.push(`/chat/${roomId}`);
+        return "Sala criada";
+      },
       error: "Ocorreu um erro",
     });
   };
