@@ -2,6 +2,9 @@
 
 Projeto de chat privado em tempo real com salas (rooms), baseado em Next.js e TypeScript. Permite criar e entrar em salas, enviar mensagens em tempo real usando Pusher/Redis, e ter uma interface simples e responsiva.
 
+## 📸 Demonstração
+Acesse uma demonstração ao vivo [aqui](https://private-chat-ochre.vercel.app)
+
 ## 🚀 Tecnologias Utilizadas
 
 ### Frontend
